@@ -1,3 +1,3 @@
 # PythonProject2
 
-df
+Terminal RPG battle project with enemy AI within the terminal
