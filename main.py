@@ -1,11 +1,17 @@
 from classes.game import Person, bcolors
+from classes.magic import Spell
 
-magic = [{"name": "Fire", "cost": 10, "dmg": 100},
-         {"name": "Thunder", "cost": 10, "dmg": 124},
-         {"name": "Blizzard", "cost": 10, "dmg": 100}]
+# black magic
+fire = Spell("Fire", 10, 100, "black")
+thunder = Spell("Thunder", 20, 200, "black")
+blizzard = Spell("Blizzard", 12, 120, "black")
 
-player = Person(460, 65, 60, 34, magic)
-enemy = Person(1200, 65, 45, 25, magic)
+# white magic
+cure = Spell("Cure", 12, 120, "white")
+cura = Spell("Cure", 18, 200, "white")
+
+player = Person(460, 65, 60, 34, [fire,thunder,blizzard,cure,cura])
+enemy = Person(1200, 65, 45, 25, [])
                 
 running = True
 
@@ -23,19 +29,24 @@ while running:
         print("You attacked for", dmg)
     elif index == 1:
         player.choose_magic()
-        spell = int(input("Choose magic:")) - 1
-        magic_dmg = player.generate_spell_damage(spell)
-        spellname = player.get_spellname(spell)
-        spellcost = player.get_spellcost(spell)
+        magic_choice = int(input("Choose magic:")) - 1
 
+        spell = player.magic[magic_choice]
+        magic_dmg = spell.generate_damage()
         current_mp = player.get_mp()
-        if spellcost > current_mp:
+        
+        if spell.cost > current_mp:
             print(bcolors.FAIL + "\nNot enough MP\n" + bcolors.ENDC)
             continue
+        
+        player.reduce_mp(spell.cost)
 
-        player.reduce_mp(spellcost)
+        if spell.type == "white":
+            player.heal(magic_dmg)
+            print(bcolors.OKBLUE + "\n" + spell.name + " heals for", str(magic_dmg), "HP." + bcolors.ENDC)
+            
         enemy.take_damage(magic_dmg)
-        print(bcolors.OKBLUE + "\n" + spellname + " deals", str(magic_dmg) + bcolors.ENDC)
+        print(bcolors.OKBLUE + "\n" + spell.name + " deals", str(magic_dmg) + bcolors.ENDC)
 
 
     enemy_choice = 1
