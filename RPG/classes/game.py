@@ -1,6 +1,7 @@
 import random
 import pprint
 
+
 class bcolors:  # class for coloring terminal text
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -63,5 +64,5 @@ class Person:
         print(bcolors.OKBLUE + bcolors.BOLD + "Magic" + bcolors.ENDC)
 
         for spell in self.magic:
-            print(str(i) + ":", spell.name , "{cost:", str(spell.cost) + ")")
+            print(str(i) + ":", spell.name, "{cost:", str(spell.cost) + ")")
             i += 1
